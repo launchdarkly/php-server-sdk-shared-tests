@@ -1,10 +1,4 @@
 {
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/launchdarkly/php-server-sdk-private.git"
-        }
-    ],
     "name": "launchdarkly/server-sdk-shared-tests",
     "description": "Shared unit test code for LaunchDarkly PHP SDK",
     "license": "Apache-2.0",
@@ -18,7 +12,7 @@
         "php": ">=7.3"
     },
     "require-dev": {
-        "launchdarkly/server-sdk": "4.0.x-dev",
+        "launchdarkly/server-sdk": "4.*",
         "phpunit/phpunit": "^9"
     },
     "autoload": {

@@ -1,8 +1,8 @@
 <?php
 
+
 namespace LaunchDarkly\SharedTest;
 
-use LaunchDarkly\FeatureRequester;
 use LaunchDarkly\Impl\Model\FeatureFlag;
 use LaunchDarkly\Impl\Model\Segment;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * Override this method to remove all data from the underlying data store for
      * the specified prefix string.
-     * 
+     *
      * @param string $prefix the key prefix; may be empty/null, in which case we should
      *   use whatever the default prefix is for this database integration.
      */
@@ -29,13 +29,13 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * Override this method to create an instance of the feature requester class being
      * tested.
-     * 
+     *
      * @param string $prefix the key prefix; may be empty/null, in which case we should
      *   use whatever the default prefix is for this database integration.
-     * 
+     *
      * @return an implementation instance
      */
-    protected function makeRequester(?string $prefix): FeatureRequester
+    protected function makeRequester(?string $prefix)
     {
         throw new \RuntimeException("test class did not implement makeRequester");
     }
@@ -63,7 +63,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testGetFeature(?string $prefix)
+    public function testGetFeature(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -83,7 +83,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testGetMissingFeature(?string $prefix)
+    public function testGetMissingFeature(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -95,7 +95,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testGetDeletedFeature(?string $prefix)
+    public function testGetDeletedFeature(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -113,7 +113,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testGetAllFeatures(?string $prefix)
+    public function testGetAllFeatures(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -131,7 +131,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         $this->putSerializedItem($prefix, 'features', $flagKey3, $flagVersion, $flagJson3);
 
         $flags = $fr->getAllFeatures();
-        
+
         $this->assertEquals(2, count($flags));
         $flag1 = $flags[$flagKey1];
         $this->assertEquals($flagKey1, $flag1->getKey());
@@ -144,7 +144,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testAllFeaturesWithEmptyStore(?string $prefix)
+    public function testAllFeaturesWithEmptyStore(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -156,7 +156,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testGetSegment(?string $prefix)
+    public function testGetSegment(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -175,7 +175,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testGetMissingSegment(?string $prefix)
+    public function testGetMissingSegment(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -187,7 +187,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * @dataProvider prefixParameters
      */
-    public function testGetDeletedSegment(?string $prefix)
+    public function testGetDeletedSegment(?string $prefix): void
     {
         $this->clearExistingData($prefix);
         $fr = $this->makeRequester($prefix);
@@ -202,7 +202,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         $this->assertNull($segment);
     }
 
-    public function testPrefixIndependence()
+    public function testPrefixIndependence(): void
     {
         $prefix1 = 'prefix1';
         $prefix2 = 'prefix2';
@@ -226,7 +226,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         $this->verifyForPrefix($this->makeRequester($prefix2), $flagKey, $segmentKey, $version2);
     }
 
-    private function setupForPrefix(?string $prefix, string $flagKey, string $segmentKey, int $flagVersion)
+    private function setupForPrefix(?string $prefix, string $flagKey, string $segmentKey, int $flagVersion): void
     {
         $segmentVersion = $flagVersion * 2;
         $this->putSerializedItem($prefix, 'features', $flagKey, $flagVersion,
@@ -235,7 +235,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
             self::makeSegmentJson($flagKey, $segmentVersion));
     }
 
-    private function verifyForPrefix(FeatureRequester $fr, string $flagKey, string $segmentKey, int $flagVersion)
+    private function verifyForPrefix($fr, string $flagKey, string $segmentKey, int $flagVersion): void
     {
         $segmentVersion = $flagVersion * 2;
 
@@ -252,7 +252,10 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         $this->assertEquals($segmentVersion, $segment->getVersion());
     }
 
-    public function prefixParameters()
+    /**
+     * @return array<int,mixed>
+     */
+    public function prefixParameters(): array
     {
         return [
             [ self::TEST_PREFIX ],
@@ -261,7 +264,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         ];
     }
 
-    private static function makeFlagJson(string $key, int $version, bool $deleted = false)
+    private static function makeFlagJson(string $key, int $version, bool $deleted = false): string|bool
     {
         return json_encode(array(
             'key' => $key,
@@ -283,7 +286,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         ));
     }
 
-    private static function makeSegmentJson(string $key, int $version, bool $deleted = false)
+    private static function makeSegmentJson(string $key, int $version, bool $deleted = false): string|bool
     {
         return json_encode(array(
             'key' => $key,
@@ -296,5 +299,3 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         ));
     }
 }
-
-?>

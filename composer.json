@@ -9,10 +9,10 @@
         }
     ],
     "require": {
-        "php": ">=7.3"
+        "php": ">=8.0"
     },
     "require-dev": {
-        "launchdarkly/server-sdk": "4.*",
+        "launchdarkly/server-sdk": "5.*",
         "phpunit/phpunit": "^9"
     },
     "autoload": {

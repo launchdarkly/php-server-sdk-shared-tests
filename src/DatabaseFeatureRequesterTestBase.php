@@ -17,7 +17,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * Override this method to remove all data from the underlying data store for
      * the specified prefix string.
-     * 
+     *
      * @param string $prefix the key prefix; may be empty/null, in which case we should
      *   use whatever the default prefix is for this database integration.
      */
@@ -29,13 +29,13 @@ class DatabaseFeatureRequesterTestBase extends TestCase
     /**
      * Override this method to create an instance of the feature requester class being
      * tested.
-     * 
+     *
      * @param string $prefix the key prefix; may be empty/null, in which case we should
      *   use whatever the default prefix is for this database integration.
-     * 
+     *
      * @return an implementation instance
      */
-    protected function makeRequester(?string $prefix): FeatureRequester
+    protected function makeRequester(?string $prefix)
     {
         throw new \RuntimeException("test class did not implement makeRequester");
     }
@@ -131,7 +131,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
         $this->putSerializedItem($prefix, 'features', $flagKey3, $flagVersion, $flagJson3);
 
         $flags = $fr->getAllFeatures();
-        
+
         $this->assertEquals(2, count($flags));
         $flag1 = $flags[$flagKey1];
         $this->assertEquals($flagKey1, $flag1->getKey());

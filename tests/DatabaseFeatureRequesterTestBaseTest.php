@@ -2,7 +2,6 @@
 
 namespace LaunchDarkly\SharedTest\Tests;
 
-use LaunchDarkly\FeatureRequester;
 use LaunchDarkly\Impl\Model\FeatureFlag;
 use LaunchDarkly\Impl\Model\Segment;
 use LaunchDarkly\SharedTest\DatabaseFeatureRequesterTestBase;
@@ -99,7 +98,7 @@ class DatabaseFeatureRequesterTestBaseTest extends DatabaseFeatureRequesterTestB
     	FakeDatabase::$data[$this->actualPrefix($prefix)] = [ 'features' => [], 'segments' => [] ];
     }
 
-	protected function makeRequester(?string $prefix): FeatureRequester
+	protected function makeRequester(?string $prefix)
     {
     	return new FakeDatabaseFeatureRequester($this->actualPrefix($prefix));
     }

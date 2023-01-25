@@ -5,7 +5,6 @@ namespace LaunchDarkly\SharedTest;
 
 use LaunchDarkly\Impl\Model\FeatureFlag;
 use LaunchDarkly\Impl\Model\Segment;
-use LaunchDarkly\Subsystems\FeatureRequester;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,9 +33,9 @@ class DatabaseFeatureRequesterTestBase extends TestCase
      * @param string $prefix the key prefix; may be empty/null, in which case we should
      *   use whatever the default prefix is for this database integration.
      *
-     * @return FeatureRequester an implementation instance
+     * @return an implementation instance
      */
-    protected function makeRequester(?string $prefix): FeatureRequester
+    protected function makeRequester(?string $prefix)
     {
         throw new \RuntimeException("test class did not implement makeRequester");
     }
@@ -236,7 +235,7 @@ class DatabaseFeatureRequesterTestBase extends TestCase
             self::makeSegmentJson($flagKey, $segmentVersion));
     }
 
-    private function verifyForPrefix(FeatureRequester $fr, string $flagKey, string $segmentKey, int $flagVersion): void
+    private function verifyForPrefix($fr, string $flagKey, string $segmentKey, int $flagVersion): void
     {
         $segmentVersion = $flagVersion * 2;
 

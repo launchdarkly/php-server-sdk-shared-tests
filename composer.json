@@ -12,7 +12,7 @@
         "php": ">=7.3"
     },
     "require-dev": {
-        "launchdarkly/server-sdk": "4.*",
+        "launchdarkly/server-sdk": "5.*",
         "phpunit/phpunit": "^9"
     },
     "autoload": {
